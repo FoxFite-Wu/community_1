@@ -3,7 +3,7 @@ package com.wcb.community_1.dto;
 public class AccessTokenDTO {
 
     private String client_id;
-    private String getClient_secret;
+    private String Client_secret;
     private String code;
     private String redirect_uri;
     private String state;
@@ -16,12 +16,12 @@ public class AccessTokenDTO {
         this.client_id = client_id;
     }
 
-    public String getGetClient_secret() {
-        return getClient_secret;
+    public String getClient_secret() {
+        return Client_secret;
     }
 
-    public void setGetClient_secret(String getClient_secret) {
-        this.getClient_secret = getClient_secret;
+    public void setClient_secret(String Client_secret) {
+        this.Client_secret = Client_secret;
     }
 
     public String getCode() {
