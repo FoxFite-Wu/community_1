@@ -1,9 +1,11 @@
-package com.wcb.community_1.model;
+package com.wcb.community_1.dto;
 
+import com.wcb.community_1.model.User;
 import lombok.Data;
 
 @Data
-public class Question {
+public class QuestionDTO {
+
     private Integer id;
     private String title;
     private String description;
@@ -14,6 +16,6 @@ public class Question {
     private Integer viewCount;
     private Integer commentCount;
     private Integer likeCount;
-
+    private User user;
 
 }
