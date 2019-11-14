@@ -1,5 +1,6 @@
 package com.wcb.community_1.service;
 
+import com.wcb.community_1.dto.PaginationDTO;
 import com.wcb.community_1.dto.QuestionDTO;
 import com.wcb.community_1.mapper.QuestionMapper;
 import com.wcb.community_1.mapper.UserMapper;
@@ -21,16 +22,33 @@ public class QuestionService {
     @Autowired
     private QuestionMapper questionMapper;
 
-    public List<QuestionDTO> list() {
-        List<Question> questions = questionMapper.list();
-        List<QuestionDTO> questionDTOList = new ArrayList<>() ;
-        for (Question question : questions) {
-           User user = userMapper.findById(question.getCreator());
-           QuestionDTO questionDTO = new QuestionDTO();
-           BeanUtils.copyProperties(question,questionDTO);
-           questionDTO.setUser(user);
-           questionDTOList.add(questionDTO);
+    public PaginationDTO list(Integer page, Integer size) {
+
+        PaginationDTO paginationDTO = new PaginationDTO();
+        Integer totalCount = questionMapper.count();
+        paginationDTO.setPagination(totalCount, page, size);
+        if (page < 1) {
+            page = 1;
         }
-        return questionDTOList;
+
+        if (page > paginationDTO.getPage()) {
+            page = paginationDTO.getPage();
+        }
+
+
+        Integer offset = size * (page - 1);
+        List<Question> questions = questionMapper.list(offset, size);
+        List<QuestionDTO> questionDTOList = new ArrayList<>();
+
+
+        for (Question question : questions) {
+            User user = userMapper.findById(question.getCreator());
+            QuestionDTO questionDTO = new QuestionDTO();
+            BeanUtils.copyProperties(question, questionDTO);
+            questionDTO.setUser(user);
+            questionDTOList.add(questionDTO);
+        }
+        paginationDTO.setQuestions(questionDTOList);
+        return paginationDTO;
     }
 }
